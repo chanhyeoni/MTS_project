@@ -5,9 +5,6 @@
 getwd()
 setwd("./Desktop/MTS/MTS sample for health")
 
-
-
-
 normalize_mean <- function(dataFrame, k){
 	# obtain the mean meatrix
 	mean_data <- apply(dataFrame, 2, mean)
@@ -33,7 +30,6 @@ mahalanobis_distance <- function(k, data, inv_corr){
 	# divide the values by k (do this AFTER finding the correlation matrix?????)
 	front <- data/k
 	
-	
 	# change the data.frame into matrix framework
 	data <- as.matrix(data)
 	inv_corr <- as.matrix(inv_corr)
@@ -54,16 +50,34 @@ function <- plot_result(ref_group, outside_group){
 	ref_group_data <- data.frame(distances = ref_group, label = "reference")
 	outside_group_data <- data.frame(distances = outside_group, label = "outside")
 	dataset <- rbind(ref_group_data, outside_group_data)	
-	nData <- 1:dim(dataset)[1]
+	nData_ref <- 1:dim(ref_group_data)[1]
+	nData_outside <- 1:dim(outside_group_data)[1]
 	
 	dataset <- data.table(dataset)
 	dataset_grouped <- dataset[, , by = dataset$label]
+	
+	with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')
+	with(dataset, points(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
+	
 	
 	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))
 	g + geom_point() + geom_line() + ggtitle("the result")	
 	
 }
 
+
+# generate the orthogonal array file
+ortho_array <- read.csv("orthoarray.csv")
+function <- orth_array(k, ortho_array){
+	# generate the orthogonal array based upon the value of the k
+	
+	# here, I will try to use the system that generates k+1 rows
+	
+	arr <- ortho_array[seq(1,k+1), seq(1, k)]
+	
+	return(arr)
+	
+}
 
 
 

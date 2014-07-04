@@ -1,3 +1,77 @@
+colnames(merged_one)
+colnames(file2)
+colnames(file_2)
+colnames(file_1)
+merged_one
+merge
+merged_one
+?match
+count<- match(file_1[, "CountryCode"], file_2[, "CountryCode"])
+count
+length(count)
+?na.rm
+??na.rm
+count<- match(file_1[, "CountryCode"], file_2[, "CountryCode"], na.rm = TRUE)
+count[!is.na(count)]
+length(count[!is.na(count)])
+file_1[, "CountryCode"]
+file_2[, "CountryCode"]
+colnames(file_2)
+colnames(merged_one)
+merged_one[, "Income.Group"]
+tapply(merged_one$Ranking, merged_one$Income.Group, mean)
+tapply(merged_one$Ranking, merged_one$Income.Group, mean, na.rm= TRUE)
+cut(merged_one$Ranking, breaks = quantile(data$Ranking, probs = seq(0,1, by = 0.2))
+)
+cut(merged_one$Ranking, breaks = quantile(data$Ranking, probs = seq(0,1, by = 0.2)), na.rm = TRUE)
+colnames(merged_one)
+?cut
+?quantile
+cut(merged_one$Ranking, breaks = quantile(data$Ranking, probs = seq(0,1, by = 0.2), na.rm = TRUE))
+cut(merged_one$Ranking, breaks = quantile(merged_one$Ranking, probs = seq(0,1, by = 0.2), na.rm = TRUE))
+a = cut(merged_one$Ranking, breaks = quantile(merged_one$Ranking, probs = seq(0,1, by = 0.2), na.rm = TRUE))
+table(a, merged_one$IncomeGroup)
+table(a, merged_one$Income.Group)
+quantile(merged_one$Ranking, probs = seq(0,1, by = 0.2), na.rm = TRUE)
+library(datasets)#
+library(lattice)
+splom(~airquality[1:5], groups = Month, data=airquality)
+histogram(Ozone ~ Wind | Month, data = airquality, layout=c(5,1))
+stripplot(Ozone ~ Wind | Month, data = airquality, layout=c(5,1))
+?subset
+g <- ggplot(data = mpg, aes(x = cty,y = hwy))
+install.packages("ggplot2")
+library(ggplot2)
+g <- ggplot(data = mpg, aes(x = cty,y = hwy))
+g + geom_point()
+g + geom_point(aes(color = fl), size = 3, alpha = 1/2)
+g + geom_point(aes(color= fl)) + theme_light()
+g + geom_point(aes(color= fl)) + theme_bw()
+g + geom_line()
+g + geom_point(aes(color = fl)) + #
+	labs(title = "MPG DATA") + # title is added#
+	labs(x = "a", y = "b")
+g+ geom_line() + geom_smooth(method = "lm")
+g + geom_point(aes(color = fl), size = 3, alpha = 1/2)
+qplot(displ, data = mpg, geom = "point", color = drv)
+qplot(displ, hwy, data = mpg, colour = fl)
+qplot(displ, hwy, data = mpg, facets = drv~., colour = fl)
+qplot(displ, hwy, data = mpg, facets = drv~., method = "lm", colour = fl)
+qplot(displ, hwy, data = mpg, method = "lm", colour = fl)
+?qplot
+qplot(cyl, year, data=mpg, facets= fl ~ class)
+g + geom_point(aes(color = fl), size = 3, alpha = 1/2)
+g + geom_point(aes(color = fl), size = 3, alpha = 1/2)+theme_bw()
+g + geom_point() + geom_smooth()
+g + geom_point(aes(color = fl), size = 3) + geom_smooth(method = "lm") + theme_bw()
+fileURL <- "https://data.baltimorecity.gov/api/views/k5ry-ef3g/rows.csv?accessType=DOWNLOAD"#
+download.file(fileURL, destfile = "./Programming/Data Science/Getting and Cleaning Data/restaurants.csv", method = "curl")#
+data <- read.csv("./Programming/Data Science/Getting and Cleaning Data/restaurants.csv")
+data$nearMe =  data$neighborhood %in% c("Roland Park","Homeland")#
+#
+# creating a binary table#
+data$wrongZipCode = ifelse(data$zipCode < 0, TRUE, FALSE)
+table(data$wrongZipCode, data$zipCode <0)
 data$zipGroups = cut(data$zipCode, breaks = quantile(data$zipCode, probs = c(0.3, 0.5, 0.8))
 )
 table(data$zipGroups)
@@ -74,542 +148,118 @@ splitnames
 splitnames[[1]]
 sapply(splitnames, function(x){x[1]})
 ?runif
-getwd()#
-setwd("./Desktop/MTS/MTS sample for health")#
-normalize_mean <- function(dataFrame){#
-	''' obtain mean matrix'''#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(data)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}#
+pal <- colorRamp(c("red", "blue"))
+pal
+pal(0)
+pal(0.3)
+pal(seq(0,1, len = 10))
+pal <- colorRampPalette(c("red", "yellow"))
+pa
+pal
+pal(2)
+pal(10)
+library(RColorBrewer)
+cols <- brewer.pal(3, "BuGn")
+cols
+pal <- colorRampPalette(cols)
+image(volcano)
+image(volcano, col = 5)
+image(colcano, col = pal(5))
+image(volcano, col = pal(5))
+image(volcano, col = pal(12))
+image(volcano, col = pal(20))
+image(volcano, col = pal(50))
+?smoothScatter
+X <- rnorm(10000)#
+y <- rnorm(10000)#
+# uses the brew palette #
+smootheScatter(X,y)
+smoothScatter(X,y)
+?smoothScatter
+pal(20)
+smoothScatter(X,y, colramp = colorRampPalette(cols))
+library(colorspace)
+plot(X,y,pch = 15)
+plot(X,y, pch = 15, col = rgb(0,0,0,0.2))
+plot(X,y, pch = 15, col = rgb(0,0,0,0.5))
+plot(X,y, pch = 15, col = rgb(0,0,0,0.01))
+plot(X,y, pch = 15, col = rgb(0.01,0,0,0.02))
+plot(X,y, pch = 15, col = rgb(0.5,0,0,0.02))
+?rgb
+plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.02))
+X <- rnorm(1000)#
+y <- rnorm(1000)
+plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.02))
+plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.5))
+plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.3))
+plot(X,y, pch = 15, col = rgb(0.1,0.1,0.1,0.3))
+splitnames = strsplit(names(iris), "\\.")
+splitnames
+splitnames = strsplit(names(iris), ".")
+splitnames
+splitnames = strsplit(names(iris), "\\.")
+sapply(splitnames, function(x){x[1]})
+sapply(splitnames, function(x){x[2]})
+fileURL1 = "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"#
+fileURL2 = "htpps://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"#
 #
-normalize_sd <- function(dataFrame){#
-	''' obtain standard deviation matrix'''#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(data)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}#
-mahalanobis_distance <- function(k, data, inv_corr){#
-	''' calculate the mahalanobis distnace '''	#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	inv_corr <- as.matrix(inv_corr)#
-	front <- as.matrix(front)#
-	# compute the distance	#
-	distances <- (front %*% inv_corr) %*% t(data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}#
-function <- plot_result(ref_group, outside_group){#
-	''' plot the data in order to show the classification result'''#
-	ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group, outside_group)	#
-	dataset <- dataset[,by=list("reference", "outisde")]#
-	nData <- 1:length(ref_group)#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point()#
-	g + geom_line()#
-	g + ggtitle("the result")	#
-}
-normalize_mean <- function(dataFrame){#
-	''' obtain mean matrix'''#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(data)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}
-normalize_mean <- function(dataFrame){#
-	'''obtain mean matrix'''#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(data)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}
-normalize_mean <- function(dataFrame){#
-	# obtain the mean meatrix#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(data)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}
-normalize_sd <- function(dataFrame){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(data)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	inv_corr <- as.matrix(inv_corr)#
-	front <- as.matrix(front)#
-	# compute the distance	#
-	distances <- (front %*% inv_corr) %*% t(data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}
-function <- plot_result(ref_group, outside_group){#
-	# plot the data in order to show the classification result#
-	ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group, outside_group)	#
-	dataset <- dataset[,by=list("reference", "outisde")]#
-	nData <- 1:length(ref_group)#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point()#
-	g + geom_line()#
-	g + ggtitle("the result")	#
-}
-install.packages("ggplot2")
-library(ggplot2)
-function <- plot_result(ref_group, outside_group){#
-	# plot the data in order to show the classification result#
-	ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group, outside_group)	#
-	dataset <- dataset[,by=list("reference", "outisde")]#
-	nData <- 1:length(ref_group)#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point()#
-	g + geom_line()#
-	g + ggtitle("the result")	#
-}
-k = 4#
+setwd("./Programming/Data Science/Getting and Cleaning Data")#
+download.file(fileURL1, destfile = "./reviews.csv", method = "curl")#
+download.file(fileURL2, destfile = "./solutions.csv", method = "curl")#
+reviews <- read.csv("reviews.csv")#
+solutions <- read.csv("solutions.csv")
+?sub
+grep("virginica", iris$Species)
+grepl("virginica", iris$Species)
+iris[grepl("virginica", iris$Species), ]
+subplot(x,y,100)
+subplot(2,2,1)
+?strsplit
+setwd("./Programming/Data Science/Exploratory Analysis/Household_power_consumption_project")#
 #
 # read the data#
-library(xlsx)#
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]
-mean_healthy_mat <- normalize_mean(healthy)#
-mean_unhealthy_mat <- normalize_mean(unhealthy)#
-sd_healthy_mat <- normalize_sd(healthy)#
-sd_unhealthy_mat <- normalize_sd(unhealthy)
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-unhealthy <- (unhealthy - mean_unhealthy_mat)/sd_unhealthy_mat
-corr <- cor(healthy, healthy)#
-inv_corr <- solve(corr)
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-ref_group
-outside_group
-class(inv_corr)
-?solve
-inv_corr
-corr
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	print data#
-	inv_corr <- as.matrix(inv_corr)#
-	print inv_corr#
-	front <- as.matrix(front)#
-	print front#
-	# compute the distance	#
-	distances <- (front %*% inv_corr) %*% t(data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	data#
-	inv_corr <- as.matrix(inv_corr)#
-	inv_corr#
-	front <- as.matrix(front)#
-	front#
-	# compute the distance	#
-	distances <- (front %*% inv_corr) %*% t(data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)
-ref_group
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	data#
-	inv_corr <- as.matrix(inv_corr)#
-	inv_corr#
-	front <- as.matrix(front)#
-	front#
-	# compute the distance	#
-	distances <- t(front %*% inv_corr) %*% (data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-reg_group
-ref_group
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	data#
-	inv_corr <- as.matrix(inv_corr)#
-	inv_corr#
-	front <- as.matrix(front)#
-	front#
-	# compute the distance	#
-	distances <- (front %*% inv_corr) %*% t(data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-ref_group
-outside_group
-healthy
-mean_data <- apply(healthy, 2, mean)
-mean_data
-normalize_mean <- function(dataFrame){#
-	# obtain the mean meatrix#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(mean_data)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}#
+NEI <- readRDS("./exdata-data-NEI_data/summarySCC_PM25.rds")#
+SCC <- readRDS("./exdata-data-NEI_data/Source_Classification_Code.rds")#
+install.packages("png")#
+library(png)
+getwd()
+setwd("")
+setwd("..")
+getwd()
+setwd("Exploratory Analysis/Household_power_consumption_project")
+NEI <- readRDS("./exdata-data-NEI_data/summarySCC_PM25.rds")#
+SCC <- readRDS("./exdata-data-NEI_data/Source_Classification_Code.rds")#
+install.packages("png")#
+library(png)
+NEI$Emissions <- as.numeric(NEI$Emissions)#
+# add new attribute, Year, which is the factored version of year#
+NEI <- transform(NEI, year = factor(year))
+str(NEI)
+?aggregate
+NEI_1 <- aggregate(NEI$Emissions, by=list(NEI$year))
+NEI_1 <- aggregate(NEI$Emissions, by=list(NEI$year), FUN=sum)
+str(NEI_1)
+NEI_baltimore<-subset(NEI, fips=="24510")#
 #
-normalize_sd <- function(dataFrame){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(sd_data)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
-	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	data#
-	inv_corr <- as.matrix(inv_corr)#
-	inv_corr#
-	front <- as.matrix(front)#
-	front#
-	# compute the distance	#
-	distances <- (front %*% inv_corr) %*% t(data)#
-	# obtain the diagonals#
-	group <- diag(distances)#
-	return (group)#
-}
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)
-healthy
-unhealthy
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]
-helathy
-healthy
-unhealthy
-mean_healthy_mat <- normalize_mean(healthy)#
-mean_unhealthy_mat <- normalize_mean(unhealthy)#
-sd_healthy_mat <- normalize_sd(healthy)#
-sd_unhealthy_mat <- normalize_sd(unhealthy)
-normalize_mean <- function(dataFrame){#
-	# obtain the mean meatrix#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = dim(mean_data)[0], ncol = dim(mean_data)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}
-normalize_sd <- function(dataFrame){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = dim(sd_data)[0] ncol = dim(sd_data)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}
-normalize_sd <- function(dataFrame){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = dim(sd_data)[0], ncol = dim(sd_data)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}
-mean_healthy_mat <- normalize_mean(healthy)#
-mean_unhealthy_mat <- normalize_mean(unhealthy)#
-sd_healthy_mat <- normalize_sd(healthy)#
-sd_unhealthy_mat <- normalize_sd(unhealthy)#
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-unhealthy <- (unhealthy - mean_unhealthy_mat)/sd_unhealthy_mat
-mean_data <- apply(healthy, 2, mean)
-mean_data_mat <- matrix(mean_data)
-mean_data_mat
-dim(healthy)
-mean_data_mat <- matrix(mean_data, nrow = 4, ncol = dim(healthy)[1])
-mean_data_mat
-mean_data_mat <- t(mean_data_mat)
-mean_dat_mat
-mean_data_mat
-normalize_mean <- function(dataFrame, k){#
-	# obtain the mean meatrix#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(dataFrame)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}#
+## extract SCC where "On-Road" is in "EI.Sector"-column#
+mobile<-subset(SCC, grepl("On-Road", EI.Sector))#
 #
-normalize_sd <- function(dataFrame, k){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(dataFrame)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}
-mean_healthy_mat <- normalize_mean(healthy, k)#
-mean_unhealthy_mat <- normalize_mean(unhealthy, k)#
-sd_healthy_mat <- normalize_sd(healthy, k)#
-sd_unhealthy_mat <- normalize_sd(unhealthy, k)
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-unhealthy <- (unhealthy - mean_unhealthy_mat)/sd_unhealthy_mat
-healthy
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)
-mean_data <- apply(healthy, 2, mean)
-mean_data
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]
-mean_data <- apply(healthy, 2, mean)
-mean_data_mat <- matrix(mean_data, nrow = healthy, ncol = dim(healthy)[1] )
-mean_data_mat <- matrix(mean_data, nrow = 4, ncol = dim(healthy)[1] )
-mean_data_mat
-mean_data_mat <- t(mean_data_mat)
-mean_data_mat
-k = 4#
+## merge the 2 data frames#
+total<-merge(NEI_baltimore, mobile, by="SCC")#
 #
-# read the data#
-library(xlsx)#
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)#
-# need to put header as 1 because it reads the first row of the excel as the attributes#
+## calculate the sums by year#
+sums <- aggregate(total$Emissions, by=list(total$year), FUN=sum)#
 #
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]
-normalize_mean <- function(dataFrame, k){#
-	# obtain the mean meatrix#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(dataFrame)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}#
+## change the column names#
+names(sums)<-c("year", "sum_of_emissions")#
 #
-normalize_sd <- function(dataFrame, k){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(dataFrame)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}
-mean_healthy_mat <- normalize_mean(healthy, k)#
-mean_unhealthy_mat <- normalize_mean(unhealthy, k)#
-sd_healthy_mat <- normalize_sd(healthy, k)#
-sd_unhealthy_mat <- normalize_sd(unhealthy, k)
-mean_healthy_mat
-healthy - mean_healthy_mat
-(healthy - mean_healthy_mat)/sd_healthy_mat
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-unhealthy <- (unhealthy - mean_unhealthy_mat)/sd_unhealthy_mat
-healthy
-unhealthy
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)
-sd_data <- apply(healthy, 2, sd)
-sd_data
-mean_data <- apply(unhealthy, 2, mean)
-mean_data
-mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(unhealthy)[1] )
-mean_data_mat
-mean_data_mat <- t(mean_data_mat)
-mean_data_mat
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]
-mean_data <- apply(unhealthy, 2, mean)
-mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(unhealthy)[1] )
-mean_data_mat
-mean_data_mat <- t(mean_data_mat)
-mean_data_mat
-mean_healthy_mat <- normalize_mean(healthy, k)#
-mean_unhealthy_mat <- normalize_mean(unhealthy, k)#
-sd_healthy_mat <- normalize_sd(healthy, k)#
-sd_unhealthy_mat <- normalize_sd(unhealthy, k)
-mean_unhealthy_mat
-sd_unhealthy_mat
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-unhealthy <- (unhealthy - mean_unhealthy_mat)/sd_unhealthy_mat
-healthy
-unhealthy
-corr <- cor(healthy, healthy)#
-inv_corr <- solve(corr)
-inv_corr
-ef_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)
-ref_group
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-outside_group
-install.packages("ggplot2")#
-library(ggplot2)
-function <- plot_result(ref_group, outside_group){#
-	# plot the data in order to show the classification result#
-	ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group, outside_group)	#
-	dataset <- dataset[,by=list("reference", "outisde")]#
-	nData <- 1:length(ref_group)#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point()#
-	g + geom_line()#
-	g + ggtitle("the result")	#
-}
-ref_group_data <- data.frame(distances = ref_group, label = "reference")
-ref_group_data
-outside_group_data <- data.frame(distances = outside_group, label = "outside")
-outside_group_data
-dataset <- rbind(ref_group, outside_group)
-dataset
-dataset <- cbind(ref_group, outside_group)
-dataset
-?rbind
-a = c(1,2,3)
-b = c(2,3,4)
-rbind(a,b)
-a = data.frame(b = c(1,2,3), c = c(2,3,4))
-b = data.frame(b = c(2,3,4), c = c(3,4,5))
-a
-b
-rbind(a,b)
-rbind(ref_group, outside_group)
-ref_group
-dataset <- rbind(ref_group_data, outside_group_data)
-dataset
-dataset <- dataset[,by=list("reference", "outisde")]
-nData <- 1:length(ref_group)
-g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))
-g + geom_point() + geom_line() + ggtitle("the result")
-nData <- 1:length(dim(dataset)[0])
-g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))
-g + geom_point() + geom_line() + ggtitle("the result")
-dim(dataset)
-dim(dataset)[1]
-nData <- 1:dim(dataset)[1]
-g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point() + geom_line() + ggtitle("the result")
-library(xlsx)#
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]#
-#normalize the data#
-mean_healthy_mat <- normalize_mean(healthy, k)#
-sd_healthy_mat <- normalize_sd(healthy, k)#
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-unhealthy <- (unhealthy - mean_healthy_mat)/sd_healthy_mat
-healthy
-unhealthy
-corr <- cor(healthy, healthy)#
-inv_corr <- solve(corr)#
+## build the plot#
+plot(sums$year, sums$sum_of_emissions, xlab="Year", ylab="Total emissions", main="Total emissions by motor vehicles in Baltimore City")#
+lines(sums$year, sums$sum_of_emissions)#
 #
-# estimate the distances and obtain the diagonal parts of the matrix#
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-ref_group
-outside_group
-row_unhealthy <- dim(unhealthy)[1]
-row_unhealthy
-unhealthy <- (unhealthy - (mean_healthy_mat[seq(1:row_unhealthy), ]) )/(sd_healthy_mat[seq(1:row_unhealthy), ])
-unhealthy
-library(xlsx)#
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]
-mean_healthy_mat <- normalize_mean(healthy, k)#
-sd_healthy_mat <- normalize_sd(healthy, k)
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat
-healthy
-row_unhealthy <- dim(unhealthy)[1]
-row_unhealthy
-seq(1:row_unhealthy)
-mean_healthy_mat[seq(1:row_unhealthy), ]
-sd_healthy_mat[seq(1:row_unhealthy), ]
-unhealthy <- (unhealthy - (mean_healthy_mat[seq(1:row_unhealthy), ]) )/(sd_healthy_mat[seq(1:row_unhealthy), ])
-unhealthy
-corr <- cor(healthy, healthy)#
-inv_corr <- solve(corr)
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-ref_group
-outside_group
-install.packages("ggplot2")#
-library(ggplot2)#
-plot_result(ref_group, outside_group)
-function <- plot_result(ref_group, outside_group){#
-	# plot the data in order to show the classification result#
-	ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group_data, outside_group_data)	#
-	dataset <- dataset[,by=list("reference", "outisde")]#
-	nData <- 1:dim(dataset)[1]#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point() + geom_line() + ggtitle("the result")	#
-}
-ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group_data, outside_group_data)	#
-	nData <- 1:dim(dataset)[1]#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point() + geom_line() + ggtitle("the result")
-?data.table
-library(data.table)
-?data.table
-dataset <- data.table(dataset)
-dataset
-data_grouped<-data[, , by=label]
-data_grouped<-dataset[, , by=datset$label]
-data_grouped
-g <- ggplot(data = data_grouped, aes(x = nData, y = distances, color = label))
-g + geom_point() + geom_line() + ggtitle("the result")
-nData <- 1:dim(ref_group)[1]
-nData <- 1:dim(ref_group_data)[1]
-dataset <- data.table(dataset)#
-	dataset_grouped <- dataset[, , by = dataset$label]#
-	g <- ggplot(data = dataset, aes(x = nData, y = distances, color = label))#
-	g + geom_point() + geom_line() + ggtitle("the result")
-#project6#
-NEI <- readRDS("summarySCC_PM25.rds")#
-SCC <- readRDS("Source_Classification_Code.rds")#
-#
+## write plot to png#
+dev.copy(png,"plot5.png")#
+dev.off()
 library(data.table)#
 library(ggplot2)#
 #
@@ -630,4 +280,142 @@ total[total=="24510"]<-"Baltimore City"#
 total<-subset(total, select = c(Emissions, fips, year))#
 #
 ## rename the fips column#
-colnames(total)[2]<-"County"
+colnames(total)[2]<-"County"#
+#
+## transform to data table and calculate sums by type and year#
+total<-data.table(total)#
+total_grouped<-total[,lapply(.SD, sum), by=list(County, year)]#
+#
+## build the plot#
+ggplot(total_grouped, aes(x=year, y = Emissions, color=County))+#
+        geom_point()+#
+        geom_line()+#
+        ggtitle("Total motor vehicle emissions")#
+#
+## write plot to png#
+dev.copy(png,"plot6.png")#
+dev.off()
+total_grouped
+ggplot(total_grouped, aes(x=year, y = Emissions, color=County))+#
+        geom_point()+#
+        geom_line()+#
+        ggtitle("Total motor vehicle emissions")
+balLA <- rbind(baltim <- NEI[which(NEI$fips == "24510"), ], lax <- NEI[which(NEI$fips == "06037"), ])#
+balLA$fips[which(balLA$fips == "24510")] <- "Baltimore City"#
+balLA$fips[which(balLA$fips == "06037")] <- "Los Angeles County"#
+names(balLA)[1] <- "Cities"#
+#
+# plot the graph and save #
+png(file = "plot6.png", bg = "transparent")#
+g1 <- ggplot(balLA, aes(x = year, y = Emissions, fill = Cities))#
+g1 + geom_bar(stat = "identity", position = position_dodge())#
+dev.off()
+?laaply
+?lapply
+?data.frame
+?sort
+?aggregate
+setwd("..")
+getwd()
+setwd("...")
+setwd(".")
+getwd()
+setwd("..")
+setwd("..")
+setwd("..")
+setwd("..")
+getwd()
+setwd("./chlee021690/Desktop/MTS/MTS sample for health")
+normalize_mean <- function(dataFrame, k){#
+	# obtain the mean meatrix#
+	mean_data <- apply(dataFrame, 2, mean)#
+	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(dataFrame)[1] )#
+	mean_data_mat <- t(mean_data_mat)#
+	return (mean_data_mat)#
+}#
+#
+normalize_sd <- function(dataFrame, k){#
+	#obtain standard deviation matrix#
+	sd_data <- apply(dataFrame, 2, sd)#
+	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(dataFrame)[1]  )#
+	sd_data_mat <- t(sd_data_mat)#
+	return (sd_data_mat)#
+}#
+mahalanobis_distance <- function(k, data, inv_corr){#
+	#calculate the mahalanobis distnace#
+	# divide the values by k (do this AFTER finding the correlation matrix?????)#
+	front <- data/k#
+	# change the data.frame into matrix framework#
+	data <- as.matrix(data)#
+	inv_corr <- as.matrix(inv_corr)#
+	front <- as.matrix(front)#
+	# compute the distance	#
+	distances <- (front %*% inv_corr) %*% t(data)#
+	# obtain the diagonals#
+	group <- diag(distances)#
+	return (group)#
+}
+k = 4#
+#
+# read the data#
+library(xlsx)#
+healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
+unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)#
+# need to put header as 1 because it reads the first row of the excel as the attributes#
+#
+healthy <- healthy[, 2:length(colnames(healthy))]#
+unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]#
+#normalize the data#
+mean_healthy_mat <- normalize_mean(healthy, k)#
+sd_healthy_mat <- normalize_sd(healthy, k)#
+healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
+row_unhealthy <- dim(unhealthy)[1]#
+unhealthy <- (unhealthy - (mean_healthy_mat[seq(1:row_unhealthy), ]) )/(sd_healthy_mat[seq(1:row_unhealthy), ])#
+#
+# find the inverse of correlation matrix for the healthy group#
+corr <- cor(healthy, healthy)#
+inv_corr <- solve(corr)#
+#
+# estimate the distances and obtain the diagonal parts of the matrix#
+ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
+outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
+ref_group
+outside_group
+install.packages("ggplot2")#
+library(ggplot2)
+plot(1:10, outside_group)
+ref_group_data <- data.frame(distances = ref_group, label = "reference")#
+	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
+	dataset <- rbind(ref_group_data, outside_group_data)	#
+	nData <- 1:dim(ref_group_data)[1]
+?dplyr
+??dplyr
+?plyr
+??plyr
+nData <- 1:dim(ref_group_data)[1]
+x <- seq(1, nData)
+nData
+?plot
+nData_outside <- 1:dim(outside_group_data)[1]
+plot(x = nData, y = ref_group_data$distances, type = 'b')
+plot(x = nData, y = ref_group_data$distances, type = 'b', col = 'red')
+plot(x = nData, y = ref_group_data$distances, type = 'l', col = 'red')
+lines(x = nData_outside, y = outside_group_data$distances, type = 'b', col = 'blue')
+with(subset(airquality, Month == 7), points(Wind, Ozone, pch = 16, col="red"))
+airquality
+with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in NYC"), type = "n")
+with(subset(airquality, Month == 7), points(Wind, Ozone, pch = 16, col="red"))
+with(ref_group_data, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')
+nData_ref <- 1:dim(ref_group_data)[1]
+with(ref_group_data, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')
+with(outside_group_data, lines(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
+datasets
+dataset
+with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
+	with(dataset, lines(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
+with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
+	with(dataset, lines(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
+with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
+	with(dataset, points(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
+with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
+	with(dataset, points(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
