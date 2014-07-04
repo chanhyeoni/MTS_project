@@ -1,4 +1,4 @@
-MTS_application_to_medical_data
+MTS_application
 ===============================
 
-the application of mahalanobis-taguchi system to medical data
+the application of mahalanobis-taguchi system (MTS)
