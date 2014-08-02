@@ -19,5 +19,5 @@ group) and the group with high risk (the abnormal group). The MTS analysis was
 implemented with the statistical programming language called R, and the resulting script
 is applicable to a wide variety of pre-processed datasets. Future plans include adding
 more functions in the MTS.R module in order for the project to be applicable to a wide
-variety of datasets, and creating a web-based application using the model.
+variety of datasets, and creating a web-based application using R.
 
