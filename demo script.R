@@ -30,7 +30,8 @@ vars_to_test <- weather_vars[seq(23,85)]
 vars_to_test <- weather_vars[seq(86, 149)]
 vars_to_test <- weather_vars[seq(150,length(weather_vars))]
 
-MTS(vw_normal[, vars_to_test], vw_abnormal[, vars_to_test])
+orthoarray_filename <- "orthoarray.csv"
+MTS(vw_normal[, vars_to_test], vw_abnormal[, vars_to_test], orthoarray_filename)
 
 
 # data visualization

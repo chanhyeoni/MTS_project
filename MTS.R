@@ -66,14 +66,24 @@ plot_result<- function(ref_group, outside_group){
 	
 }
 
-ortho_array_144 <- as.matrix(read.csv("oa144.csv", header = FALSE))
-ortho_array_64 <- as.matrix(read.csv("orthoarray.csv", header = FALSE))
 
-make_ortho_arr<- function(nVariables=dim(ortho_array_64)[2], nRuns=dim(ortho_array_64)[1]){
-	# k is the user-defined input (the number of runs),
-  # and based upon the number of inputs,
-  # the orthogonal array will be generated
-  ortho_arr <- ortho_array_64[seq(1,nRuns), seq(1, nVariables)]
+make_ortho_arr<- function(ortho_filename){
+	# takes the name of the orthogonal array filename and makes 
+  ortho_array <- as.matrix(read.csv(ortho_filename, header = FALSE))
+  nVariables <- as.numeric(readline(prompt = "how many variables?: "))
+  nRuns <- as.numeric(readline(prompt = "how many runs?: "))
+  
+  while(TRUE){
+    if(nVariables >= dim(ortho_array)[2] | nVariables <= 0){
+      print ("Error! the number of variables is not in the available range of numbers")
+      nVariables <- as.numeric(readline(prompt = "how many variables?: "))
+    }else if(nRuns > dim(ortho_array[1] | nRuns <= 0)){
+      print ("Error! the number of variables is not in the available range of numbers")
+      nRuns <- as.numeric(readline(prompt = "how many runs?: "))
+    }
+  }
+  
+  ortho_arr <- ortho_array[seq(1,nRuns), seq(1, nVariables)]
 
 	return(ortho_arr)
 }
@@ -190,7 +200,7 @@ dim_reduction<- function(data, ratio_ordered, nVariables){
 	return (data[, selected_vars])
 }
 
-MTS <- function(normal, abnormal){
+MTS <- function(normal, abnormal, ortho_filename){
   # normal and abnormal : the datasets that do not include the labels
 
   ################ MAHALANOBIS DISTANCE ################ 
@@ -208,9 +218,7 @@ MTS <- function(normal, abnormal){
      
   ################ TAGUCHI ARRAY ################
   # make an orthogonal array
-  nVariables <- as.numeric(readline(prompt = "how many variables?: "))
-  nRuns <- as.numeric(readline(prompt = "how many runs?: "))
-  ortho_arr <- make_ortho_arr(nVariables, nRuns)
+  ortho_arr <- make_ortho_arr(ortho_filename)
   nCols <- seq(1, dim(ortho_arr)[2])
   var_names <- colnames(normal[, nCols])
   
