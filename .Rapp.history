@@ -1,30 +1,3 @@
-colnames(merged_one)
-colnames(file2)
-colnames(file_2)
-colnames(file_1)
-merged_one
-merge
-merged_one
-?match
-count<- match(file_1[, "CountryCode"], file_2[, "CountryCode"])
-count
-length(count)
-?na.rm
-??na.rm
-count<- match(file_1[, "CountryCode"], file_2[, "CountryCode"], na.rm = TRUE)
-count[!is.na(count)]
-length(count[!is.na(count)])
-file_1[, "CountryCode"]
-file_2[, "CountryCode"]
-colnames(file_2)
-colnames(merged_one)
-merged_one[, "Income.Group"]
-tapply(merged_one$Ranking, merged_one$Income.Group, mean)
-tapply(merged_one$Ranking, merged_one$Income.Group, mean, na.rm= TRUE)
-cut(merged_one$Ranking, breaks = quantile(data$Ranking, probs = seq(0,1, by = 0.2))
-)
-cut(merged_one$Ranking, breaks = quantile(data$Ranking, probs = seq(0,1, by = 0.2)), na.rm = TRUE)
-colnames(merged_one)
 ?cut
 ?quantile
 cut(merged_one$Ranking, breaks = quantile(data$Ranking, probs = seq(0,1, by = 0.2), na.rm = TRUE))
@@ -193,229 +166,134 @@ plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.02))
 plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.5))
 plot(X,y, pch = 15, col = rgb(0.7,0.4,0.2,0.3))
 plot(X,y, pch = 15, col = rgb(0.1,0.1,0.1,0.3))
-splitnames = strsplit(names(iris), "\\.")
-splitnames
-splitnames = strsplit(names(iris), ".")
-splitnames
-splitnames = strsplit(names(iris), "\\.")
-sapply(splitnames, function(x){x[1]})
-sapply(splitnames, function(x){x[2]})
-fileURL1 = "https://dl.dropboxusercontent.com/u/7710864/data/reviews-apr29.csv"#
-fileURL2 = "htpps://dl.dropboxusercontent.com/u/7710864/data/solutions-apr29.csv"#
-#
-setwd("./Programming/Data Science/Getting and Cleaning Data")#
-download.file(fileURL1, destfile = "./reviews.csv", method = "curl")#
-download.file(fileURL2, destfile = "./solutions.csv", method = "curl")#
-reviews <- read.csv("reviews.csv")#
-solutions <- read.csv("solutions.csv")
-?sub
-grep("virginica", iris$Species)
-grepl("virginica", iris$Species)
-iris[grepl("virginica", iris$Species), ]
-subplot(x,y,100)
-subplot(2,2,1)
-?strsplit
-setwd("./Programming/Data Science/Exploratory Analysis/Household_power_consumption_project")#
-#
-# read the data#
-NEI <- readRDS("./exdata-data-NEI_data/summarySCC_PM25.rds")#
-SCC <- readRDS("./exdata-data-NEI_data/Source_Classification_Code.rds")#
-install.packages("png")#
-library(png)
-getwd()
-setwd("")
-setwd("..")
-getwd()
-setwd("Exploratory Analysis/Household_power_consumption_project")
-NEI <- readRDS("./exdata-data-NEI_data/summarySCC_PM25.rds")#
-SCC <- readRDS("./exdata-data-NEI_data/Source_Classification_Code.rds")#
-install.packages("png")#
-library(png)
-NEI$Emissions <- as.numeric(NEI$Emissions)#
-# add new attribute, Year, which is the factored version of year#
-NEI <- transform(NEI, year = factor(year))
-str(NEI)
-?aggregate
-NEI_1 <- aggregate(NEI$Emissions, by=list(NEI$year))
-NEI_1 <- aggregate(NEI$Emissions, by=list(NEI$year), FUN=sum)
-str(NEI_1)
-NEI_baltimore<-subset(NEI, fips=="24510")#
-#
-## extract SCC where "On-Road" is in "EI.Sector"-column#
-mobile<-subset(SCC, grepl("On-Road", EI.Sector))#
-#
-## merge the 2 data frames#
-total<-merge(NEI_baltimore, mobile, by="SCC")#
-#
-## calculate the sums by year#
-sums <- aggregate(total$Emissions, by=list(total$year), FUN=sum)#
-#
-## change the column names#
-names(sums)<-c("year", "sum_of_emissions")#
-#
-## build the plot#
-plot(sums$year, sums$sum_of_emissions, xlab="Year", ylab="Total emissions", main="Total emissions by motor vehicles in Baltimore City")#
-lines(sums$year, sums$sum_of_emissions)#
-#
-## write plot to png#
-dev.copy(png,"plot5.png")#
-dev.off()
-library(data.table)#
-library(ggplot2)#
-#
-## subset the dataset for Baltimore City and LA county#
-NEI_balt_LA<-subset(NEI, fips=="24510" | fips=="06037")#
-#
-## extract SCC where "On-Road" is in "EI.Sector"-column#
-mobile<-subset(SCC, grepl("On-Road", EI.Sector))#
-#
-## merge the 2 data frames#
-total<-merge(NEI_balt_LA, mobile, by="SCC")#
-#
-## rename the fips codes to the corresponding counties#
-total[total=="06037"]<-"LA County"#
-total[total=="24510"]<-"Baltimore City"#
-#
-##remove certain columns that we don't need for the graphs#
-total<-subset(total, select = c(Emissions, fips, year))#
-#
-## rename the fips column#
-colnames(total)[2]<-"County"#
-#
-## transform to data table and calculate sums by type and year#
-total<-data.table(total)#
-total_grouped<-total[,lapply(.SD, sum), by=list(County, year)]#
-#
-## build the plot#
-ggplot(total_grouped, aes(x=year, y = Emissions, color=County))+#
-        geom_point()+#
-        geom_line()+#
-        ggtitle("Total motor vehicle emissions")#
-#
-## write plot to png#
-dev.copy(png,"plot6.png")#
-dev.off()
-total_grouped
-ggplot(total_grouped, aes(x=year, y = Emissions, color=County))+#
-        geom_point()+#
-        geom_line()+#
-        ggtitle("Total motor vehicle emissions")
-balLA <- rbind(baltim <- NEI[which(NEI$fips == "24510"), ], lax <- NEI[which(NEI$fips == "06037"), ])#
-balLA$fips[which(balLA$fips == "24510")] <- "Baltimore City"#
-balLA$fips[which(balLA$fips == "06037")] <- "Los Angeles County"#
-names(balLA)[1] <- "Cities"#
-#
-# plot the graph and save #
-png(file = "plot6.png", bg = "transparent")#
-g1 <- ggplot(balLA, aes(x = year, y = Emissions, fill = Cities))#
-g1 + geom_bar(stat = "identity", position = position_dodge())#
-dev.off()
-?laaply
+import oauth
+?oauth
+??oauth
+load("/Users/chlee021690/Desktop/RData 3")
+RData 3
+load("/Users/chlee021690/Desktop/RData 3")
+~/Desktop/RData 3
+open("/Users/chlee021690/Desktop/RData 3")
+a = matrix(1:10)
+a
+a = matrix(1:10, 2:20)
+a
+a = matrix(1:100, nrow = 10, ncol = 10)
+a
+b = a[seq(1,5), seq(1,4)]
+b
+a = [[1,3], [2,3]]
+a = matrix(seq(1,10))
+a
+sum(a,1)
+sum(a,2)
+sum(a)
+?matri
+?matrix
+a = matrix(seq(1,10), nrow = 2, ncol = 5)
+a
+sum(a,1)
+?sum
+rowSum(a)
+?rowsum
+rowSums(a)
+colSums(a)
+?log
+?log10
+log10(a)
+a[a==1] = 0
+a
+a = matrix(c(1,2,1,2,1,1,2,2,1,1), nrow = 2, ncol = 5)
+a
+a[a==2] = 0
+a
+rep(a)
+a
+?rep
+repmat()
+repmat
+?repmat
+a = list(a)
+a
+rep(a,2)
+a = matrix(c(1,2,1,2,1,1,2,2,1,1), nrow = 2, ncol = 5)
+a
+a[1,]
+b = a[1,]
+a
+b
+cbind(b,b)
+cbind(b,4)
+rep(b,4)
+rep(t(b),4)
+matrix(rep(b,4), ncol=4)
+?mean
 ?lapply
-?data.frame
-?sort
-?aggregate
-setwd("..")
-getwd()
-setwd("...")
-setwd(".")
-getwd()
-setwd("..")
-setwd("..")
-setwd("..")
-setwd("..")
-getwd()
-setwd("./chlee021690/Desktop/MTS/MTS sample for health")
-normalize_mean <- function(dataFrame, k){#
-	# obtain the mean meatrix#
-	mean_data <- apply(dataFrame, 2, mean)#
-	mean_data_mat <- matrix(mean_data, nrow = k, ncol = dim(dataFrame)[1] )#
-	mean_data_mat <- t(mean_data_mat)#
-	return (mean_data_mat)#
-}#
-#
-normalize_sd <- function(dataFrame, k){#
-	#obtain standard deviation matrix#
-	sd_data <- apply(dataFrame, 2, sd)#
-	sd_data_mat <- matrix(sd_data, nrow = k, ncol = dim(dataFrame)[1]  )#
-	sd_data_mat <- t(sd_data_mat)#
-	return (sd_data_mat)#
-}#
-mahalanobis_distance <- function(k, data, inv_corr){#
-	#calculate the mahalanobis distnace#
+a = matrix(seq(1,16), ncol = 4, nrow = 4)
+a
+mean(a)
+lapply(a, mean)
+apply(a, mean)
+sapply(a, mean)
+tapply(a, mean)
+colMeans(a)
+a
+b <- (a[a==2]=0)
+b
+a = matrix(c(1,2,1,2,1,1,2,2,1,1), nrow = 2, ncol = 5)
+a[1, grep(a[1,]==1)]
+grep?
+?grep
+which(a[1,]==1)
+grep(a[1,]==1)
+grep(a[1,]==1, a)
+a[1, which(a[1,]==1)]
+a
+?row
+install.packages("caret")
+library(caret)
+?caret
+??caret
+?kernlab
+??kernlab
+install.pakcages("kernlab")
+install.packages("kernlab")
+library(kernlab)
+?kernlab
+??kernlab
+install.packages("shiny")
+setwd("./Google Drive/MTS/MTS project")
+dataset_1 <- read.csv("liberty_mutual_train.csv", nrow = 100000)
+id <- dataset_1[, "id"]#
+labels <- dataset_1[, "target"]#
+dataset <- dataset_1[, !(colnames(dataset_1) %in% c("id", "target", "dummy"))]#
+columns <- colnames(dataset_1)
+labels[labels >= 1] = 1#
+labels[labels < 1 ] = 0#
+# separate them from positive and negative examples#
+abnormal<- dataset[labels == 1, ]#
+normal <- dataset[labels ==0, ]#
+abnormal_mat <- as.matrix(abnormal)#
+normal_mat <- as.matrix(normal)
+crimes_data_normal <- normal[, grep("crime", columns)]#
+crimes_data_abnormal <- abnormal[, grep("crime", columns)]
+corr <- cor(crimes_data_normal, crimes_data_normal)#
+inv_corr <- solve(corr)
+dim(crimes_data_abnormal)
+crimes_data_normal
+dim(crimes_data_normal)
+outside_group <- mahalanobis(crimes_data_abnormal, crimes_data_abnormal, corr, inverted = TRUE)
+outside_group <- mahalanobis(as.matrix(crimes_data_abnormal), as.matrix(crimes_data_abnormal), corr, inverted = TRUE)
+mahalanobis_distance <- function(data, inv_corr){#
+	#calculate the mahalanobis distnace and returns the values diagonally positioned#
+	# in the matrices#
 	# divide the values by k (do this AFTER finding the correlation matrix?????)#
-	front <- data/k#
-	# change the data.frame into matrix framework#
-	data <- as.matrix(data)#
-	inv_corr <- as.matrix(inv_corr)#
-	front <- as.matrix(front)#
+	front <- data/(as.numeric(length(colnames(data))))#
 	# compute the distance	#
 	distances <- (front %*% inv_corr) %*% t(data)#
 	# obtain the diagonals#
 	group <- diag(distances)#
 	return (group)#
 }
-k = 4#
-#
-# read the data#
-library(xlsx)#
-healthy<- read.xlsx("healthy_group.xlsx", sheetIndex = 1, header = 1)#
-unhealthy <- read.xlsx("abnormal_group.xlsx", sheetIndex = 1, header = 1)#
-# need to put header as 1 because it reads the first row of the excel as the attributes#
-#
-healthy <- healthy[, 2:length(colnames(healthy))]#
-unhealthy <- unhealthy[, 2:length(colnames(unhealthy))]#
-#normalize the data#
-mean_healthy_mat <- normalize_mean(healthy, k)#
-sd_healthy_mat <- normalize_sd(healthy, k)#
-healthy <- (healthy - mean_healthy_mat)/sd_healthy_mat#
-row_unhealthy <- dim(unhealthy)[1]#
-unhealthy <- (unhealthy - (mean_healthy_mat[seq(1:row_unhealthy), ]) )/(sd_healthy_mat[seq(1:row_unhealthy), ])#
-#
-# find the inverse of correlation matrix for the healthy group#
-corr <- cor(healthy, healthy)#
-inv_corr <- solve(corr)#
-#
-# estimate the distances and obtain the diagonal parts of the matrix#
-ref_group <- mahalanobis_distance(k, healthy, inv_corr)#
-outside_group <- mahalanobis_distance(k, unhealthy, inv_corr)
-ref_group
+outside_group <- mahalanobis_distance(as.matrix(crimes_data_abnormal), inv_corr)
 outside_group
-install.packages("ggplot2")#
-library(ggplot2)
-plot(1:10, outside_group)
-ref_group_data <- data.frame(distances = ref_group, label = "reference")#
-	outside_group_data <- data.frame(distances = outside_group, label = "outside")#
-	dataset <- rbind(ref_group_data, outside_group_data)	#
-	nData <- 1:dim(ref_group_data)[1]
-?dplyr
-??dplyr
-?plyr
-??plyr
-nData <- 1:dim(ref_group_data)[1]
-x <- seq(1, nData)
-nData
-?plot
-nData_outside <- 1:dim(outside_group_data)[1]
-plot(x = nData, y = ref_group_data$distances, type = 'b')
-plot(x = nData, y = ref_group_data$distances, type = 'b', col = 'red')
-plot(x = nData, y = ref_group_data$distances, type = 'l', col = 'red')
-lines(x = nData_outside, y = outside_group_data$distances, type = 'b', col = 'blue')
-with(subset(airquality, Month == 7), points(Wind, Ozone, pch = 16, col="red"))
-airquality
-with(airquality, plot(Wind, Ozone, main = "Ozone and Wind in NYC"), type = "n")
-with(subset(airquality, Month == 7), points(Wind, Ozone, pch = 16, col="red"))
-with(ref_group_data, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')
-nData_ref <- 1:dim(ref_group_data)[1]
-with(ref_group_data, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')
-with(outside_group_data, lines(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
-datasets
-dataset
-with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
-	with(dataset, lines(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
-with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
-	with(dataset, lines(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
-with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
-	with(dataset, points(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
-with(dataset, plot(x = nData_ref, y = ref_group_data$distances, type = 'l', col = 'red'), type = 'n')#
-	with(dataset, points(x = nData_outside, y = outside_group_data$distances, type = 'l', col = 'blue'), type = 'n')
