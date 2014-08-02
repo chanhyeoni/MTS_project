@@ -237,5 +237,4 @@ MTS <- function(normal, abnormal){
   # plot the result
   plot_result(ref_group, outside_group)
   
-  return (list(normal, abnormal))
 }
