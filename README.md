@@ -20,4 +20,3 @@ implemented with the statistical programming language called R, and the resultin
 is applicable to a wide variety of pre-processed datasets. Future plans include adding
 more functions in the MTS.R module in order for the project to be applicable to a wide
 variety of datasets, and creating a web-based application using R.
-

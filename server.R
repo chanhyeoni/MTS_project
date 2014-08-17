@@ -8,112 +8,125 @@ library(shiny)
 source("MTS.R")
 
 
-
-
-
-################ TAGUCHI ARRAY ################
-# make an orthogonal array
-nVariables <- as.numeric(readline(prompt = "how many variables?: "))
-nRuns <- as.numeric(readline(prompt = "how many runs?: "))
-ortho_arr <- make_ortho_arr(nVariables, nRuns)
-nCols <- seq(1, dim(ortho_arr)[2])
-var_names <- colnames(normal[, nCols])
-
-# compute the nosie-to-signal ratio
-runs <- generate_runs(ortho_arr, normal[, nCols], abnormal[, nCols])
-avr_sn_ratio <- avr_SN_ratio(runs, ortho_arr, var_names)
-graph_SN_ratio(avr_sn_ratio)
-
-# make the dimensionality reduction and generate new normal and abnormal data
-ls <- show_deltas(avr_sn_ratio)
-normal <- dim_reduction(normal, ls[[1]],ls[[2]])
-abnormal <- dim_reduction(abnormal, ls[[1]],ls[[2]])
-
-
-################ MAHALANOBIS DISTANCE (the second) ################ 
-# find the correlations
-corr <- cor(normal, normal)
-
-# estimate the mahalanobis distances
-ref_group_2 <- mahalanobis_dist(normal, corr)
-outside_group_2 <- mahalanobis_dist(abnormal, corr)
-outside_group_2 <- outside_group[-which(outside_group == max(outside_group))]
-
-
-############################################## MTS ##############################################
-
-shinyServer(function(input, output) {
-  # set the working directory
-  setwd("/Google Drive/MTS/MTS project")
+ls_datasets <- function(dataset){
+  # splits the dataset into normal and abnormal parts
+  # split the dataset into normal and abnormal
+  normal <- dataset[dataset$target == 1, ]
+  abnormal <- dataset[dataset$target==0, ]
+  # remove the unncessary columns
+  normal <- normal[, !(colnames(normal) %in% c("X", "id"))]
+  abnormal <- abnormal[, !(colnames(abnormal) %in% c("X", "id"))]
   
+  # get the necessary subsets of the variables
+  columns <- colnames(normal)
+  # exclude the target variables
+  columns_except_target <- columns[!(columns %in% c("target"))]
   
-  dInput = reactive({
-    in.file = input$file1
-    
-    if (is.null(in.file))
-      return(NULL)
-    
-    if (input$rownames) {
-      read.table(in.file$datapath, header=input$header, sep=input$sep,
-                 quote=input$quote, row.names=1, dec=input$dec)
-    } else {
-      read.table(in.file$datapath, header=input$header, sep=input$sep,
-                 quote=input$quote, dec=input$dec)
-    }
+  # normalize the dataset
+  normal[, columns_except_target] <- normalize(normal[, columns_except_target] , normal[, columns_except_target] )
+  abnormal[, columns_except_target] <- normalize(normal[, columns_except_target], abnormal[, columns_except_target])
+  
+  # create variables selection options
+  vars <- columns_except_target[grep("var", columns_except_target)]
+  numeric_vars <- vars[-which(vars == "var7" | vars == "var8")]
+  geodem_vars <- columns_except_target[grep("geo", columns_except_target)]
+  weather_vars <- columns_except_target[grep("weather", columns_except_target)]
+  
+  # variables to test upon
+  vars_to_test <- append(append(numeric_vars,geodem_vars), weather_vars)
+  normal <- normal[, vars_to_test]
+  abnormal <- abnormal[, vars_to_test]
+  
+  return (list('normal'= normal, 'abnormal'= abnormal))
+}
+
+mahalanobis_process <- function(normal, abnormal){
+  # find the correlations
+  corr <- cor(normal, normal)
+  
+  # estimate the mahalanobis distances
+  ref_group <- mahalanobis_dist(normal, corr)
+  outside_group <- mahalanobis_dist(abnormal, corr)
+  outside_group <- outside_group[-which(outside_group == max(outside_group))]
+  
+  return (list('ref'=ref_group, 'outside'=outside_group))
+}
+
+readFile <- function(inFile){
+  if(is.null(inFile)){
+    return (NULL)
   }
+  dataset <- read.csv(inFile$datapath)
+  return(dataset)
+}
+
+show_sn_ratio <- function(ortho_filename, normal, abnormal){
+  nVariables <- dim(abnormal)[2]
+  ortho_arr <- make_ortho_arr(ortho_filename, nVariables)
+  nCols <- seq(1, dim(ortho_arr)[2])
+  var_names <- colnames(normal[, nCols])
+  
+  # comput the nosie-to-signal ratio
+  runs <- generate_runs(ortho_arr, normal[, nCols], abnormal[, nCols])
+  avr_sn_ratio <- avr_SN_ratio(runs, ortho_arr, var_names)
+  return (get_ordred_sn_ratio(avr_sn_ratio))
+}
+
+shinyServer(function(input, output, session) {
+  get_dataset <- reactive({readFile(input$dataset)})
+  nSelectedVariables <- reactive({(input$nVariables)})
+
+  output$data <- renderTable({
+    dataset <- get_dataset()
+    dataset[seq(1,20), ]
+    }
   )
   
-  output$normal_group <- renderTable({
-    d.input= dInput()
-    if(is.null(d.input)){
-      return (NULL)
-    }
-    head(dInput())
+  output$mts_first <- renderPlot({
+    dataset <- get_dataset()
+    ls_data <- ls_datasets(dataset)
+    normal <- ls_data[[1]]
+    abnormal <- ls_data[[2]]
+    
+    ls_MD_groups <- mahalanobis_process(normal, abnormal)
+    ref_group <- ls_MD_groups[[1]]
+    outside_group <- ls_MD_groups[[2]]
+    plot_result(ref_group, outside_group)
+    
   })
-  #output$abnormal_group <- renderTable({
-  #  vw_abnormal <- read.csv(input$abnormal_group)
-  #  vw_abnormal <- vw_abnormal[, !(colnames(vw_abnormal) %in% c("X", "id"))]
-  #  head(vw_abnormal)
-  #}
-  #)
   
-  ## plot the mahalanobis distances
-  #output$mahalanobis_plots_1 <- renderPlot({
-  #  # pre-process the data
+  output$sn_ratio <- renderTable({
+    dataset <- get_dataset()
+    ls_data <- ls_datasets(dataset)
+    normal <- ls_data[[1]]
+    abnormal <- ls_data[[2]]
     
-  #  columns <- colnames(vw_normal)
-  #  columns_except_target <- columns[!(columns %in% c("target"))]
-    
-    
-    
-    ################ MAHALANOBIS DISTANCE ################ 
-    # normal and abnormal : the datasets that do not include the labels
-    # normalize the dataset
-  #  normal <- normalize(vw_normal[, columns_except_target], vw_normal[, columns_except_target])
-  #  abnormal <- normalize(vw_normal[, columns_except_target], vw_abnormal[, columns_except_target])
-    
-    # find the correlations
-  #  corr <- cor(normal, normal)
-    
-    # estimate the mahalanobis distances
-  #  ref_group_1 <- mahalanobis_dist(normal, corr)
-  #  outside_group_1 <- mahalanobis_dist(abnormal, corr)
-    
-    # plot the result
-  # plot_result(ref_group_1, outside_group_1)
-  #  }
-  #  )
+    ortho_filename <- "L256.csv"
+    show_sn_ratio(ortho_filename, normal, abnormal)
+  })
   
-  #nVariables <- as.numeric(readline(prompt = "how many variables?: "))
-  #nRuns <- as.numeric(readline(prompt = "how many runs?: "))
-  
-  # graph the average signal-to-noise ratios
-  #output$avr_sn_ratio <- renderPlot(graph_SN_ratio(avr_sn_ratio))
-  
-  # graph the second mahalanobis distances
-  #output$mahalanobis_plots_2 <- renderPlot(plot_result(ref_group_2, outside_group_2))
-  
-
+  output$mts_second <- renderPlot({
+    dataset <- get_dataset()
+    ls_data <- ls_datasets(dataset)
+    normal <- ls_data[[1]]
+    abnormal <- ls_data[[2]]
     
+    ortho_filename <- "L256.csv"
+    ratio_ordered<-show_sn_ratio(ortho_filename, normal, abnormal)
+    
+    normal <- dim_reduction(normal, ratio_ordered,nSelectedVariables)
+    abnormal <- dim_reduction(abnormal, ratio_ordered,nSelectedVariables)
+    
+    ls_MD_groups <- mahalanobis_process(normal, abnormal)
+    ref_group <- ls_MD_groups[[1]]
+    outside_group <- ls_MD_groups[[2]]
+    
+    
+    plot_result(ref_group, outside_group)
+    
+  })
+  
+  
+ 
   }
 )

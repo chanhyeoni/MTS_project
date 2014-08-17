@@ -1,14 +1,14 @@
-# Mahalanobis-Taguchi System module
+# the Mahalanobis-Taguchi System module
 # Chang Hyun Lee
 # created 2014.06.24
+# This file contains the necessary modules in order to run 
+# the Mahalanobis-Taguchi System (MTS)
 
 # necessary package should be installed
 library(ggplot2)
 library(data.table)
 library(xlsx)
 library(MASS)
-library(lattice)
-require(reshape2)
 
 mean_matrix <- function(dataFrame){
 	# obtain the mean meatrix
@@ -34,7 +34,7 @@ normalize <- function(normal_data, data){
   # normalize the data
   mean_normal_mat <- mean_matrix(normal_data)
   sd_normal_mat <- sd_matrix(normal_data)
-  nrow = (dim(data)[1])
+  nrow = dim(data)[1]
   normalized_data <- (as.matrix(data) - mean_normal_mat[seq(1:nrow), ])/(sd_normal_mat[seq(1:nrow), ]) 
   
   return (normalized_data)
@@ -67,22 +67,13 @@ plot_result<- function(ref_group, outside_group){
 }
 
 
-make_ortho_arr<- function(ortho_filename){
-	# takes the name of the orthogonal array filename and makes 
-  ortho_array <- as.matrix(read.csv(ortho_filename, header = FALSE))
-  nVariables <- as.numeric(readline(prompt = "how many variables?: "))
-  nRuns <- as.numeric(readline(prompt = "how many runs?: "))
+make_ortho_arr<- function(orthoarray_filename, nVariables){
+	# takes the name of the orthogonal array filename and makes an orthogonal array
+  print ("the dimension of the orthogonal array")
   
-  while(TRUE){
-    if(nVariables >= dim(ortho_array)[2] | nVariables <= 0){
-      print ("Error! the number of variables is not in the available range of numbers")
-      nVariables <- as.numeric(readline(prompt = "how many variables?: "))
-    }else if(nRuns > dim(ortho_array[1] | nRuns <= 0)){
-      print ("Error! the number of variables is not in the available range of numbers")
-      nRuns <- as.numeric(readline(prompt = "how many runs?: "))
-    }
-  }
-  
+  ortho_array <- as.matrix(read.csv(orthoarray_filename, header = FALSE))
+  print (dim(ortho_array))
+  nRuns <- dim(ortho_array)[1]
   ortho_arr <- ortho_array[seq(1,nRuns), seq(1, nVariables)]
 
 	return(ortho_arr)
@@ -169,9 +160,10 @@ avr_SN_ratio<- function(runs_matrices, ortho_arr, var_names){
 	# combine the matrix
 	avr_sn_ratio <- data.frame(ON = use_matrix, OFF = dont_use_matrix, row.names = var_names)
 	avr_sn_ratio$delta <- (use_matrix - dont_use_matrix)
-	
+  
 	return (avr_sn_ratio)
 }
+
 
 
 graph_SN_ratio <- function(avr_sn_ratio){
@@ -179,17 +171,14 @@ graph_SN_ratio <- function(avr_sn_ratio){
  p <- qplot(x = rownames(sn_ratio_ordered), y = sn_ratio_ordered$delta, data = sn_ratio_ordered, 
             main = "the Signal-to-Noise", xlab = "variables", ylab = "delta")
  print (p)
-  #p <- geom_rect()
 }
 
-show_deltas <- function(avr_sn_ratio){
+get_ordred_sn_ratio <- function(avr_sn_ratio){
   # shows the deltas along with the variable names as well as
   # asking for the number of variables to select
   ratio_ordered <- avr_sn_ratio[order(-avr_sn_ratio$delta), ]
-  things_to_print <- data.frame(variables = rownames(ratio_ordered), delta = ratio_ordered$delta)
-  print (things_to_print)
-  nVariables <- as.numeric(readline(prompt = "how many variables do you want to select?: "))
-  return (list(ratio_ordered, nVariables))
+  print (ratio_ordered)
+  return (ratio_ordered)
 }
 
 dim_reduction<- function(data, ratio_ordered, nVariables){
@@ -218,7 +207,8 @@ MTS <- function(normal, abnormal, ortho_filename){
      
   ################ TAGUCHI ARRAY ################
   # make an orthogonal array
-  ortho_arr <- make_ortho_arr(ortho_filename)
+  nVariables <- dim(abnormal)[2]
+  ortho_arr <- make_ortho_arr(ortho_filename, nVariables)
   nCols <- seq(1, dim(ortho_arr)[2])
   var_names <- colnames(normal[, nCols])
   
@@ -229,9 +219,10 @@ MTS <- function(normal, abnormal, ortho_filename){
   readline(prompt = "Hit Enter to contiue ")
   
   # make the dimensionality reduction and generate new normal and abnormal data
-  ls <- show_deltas(avr_sn_ratio)
-  normal <- dim_reduction(normal, ls[[1]],ls[[2]])
-  abnormal <- dim_reduction(abnormal, ls[[1]],ls[[2]])
+  ratio_ordered <- get_ordred_sn_ratio(avr_sn_ratio)
+  nVars <- as.integer(readline(prompt = "choose the number of variables : "))
+  normal <- dim_reduction(normal, ratio_orderd,nVars)
+  abnormal <- dim_reduction(abnormal, ratio_ordered,nVars)
   
   ################ MAHALANOBIS DISTANCE (the second) ################ 
   # find the correlations
