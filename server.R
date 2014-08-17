@@ -7,7 +7,6 @@
 library(shiny)
 source("MTS.R")
 
-
 ls_datasets <- function(dataset){
   # splits the dataset into normal and abnormal parts
   # split the dataset into normal and abnormal
@@ -101,7 +100,7 @@ shinyServer(function(input, output, session) {
     normal <- ls_data[[1]]
     abnormal <- ls_data[[2]]
     
-    ortho_filename <- "L256.csv"
+    ortho_filename <- "./data/L256.csv"
     show_sn_ratio(ortho_filename, normal, abnormal)
   })
   
@@ -111,7 +110,7 @@ shinyServer(function(input, output, session) {
     normal <- ls_data[[1]]
     abnormal <- ls_data[[2]]
     
-    ortho_filename <- "L256.csv"
+    ortho_filename <- "./data/L256.csv"
     ratio_ordered<-show_sn_ratio(ortho_filename, normal, abnormal)
     
     normal <- dim_reduction(normal, ratio_ordered,nSelectedVariables)

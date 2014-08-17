@@ -3,14 +3,13 @@
 # Chang Hyun Lee
 # created 2014.07.09
 
-# set the working directory
-setwd("./Google Drive/MTS/MTS project")
 
 # import all the necessary modules
 source("MTS.R")
 
 # read the dataset
-dataset <- read.csv("liberty_mutual.csv")
+setwd("..")
+dataset <- read.csv("./data/liberty_mutual.csv")
 vw_normal <- dataset[dataset$target ==0, ]
 vw_abnormal <- dataset[dataset$target ==1, ]
 vw_normal <- vw_normal[, !(colnames(vw_normal) %in% c("X", "id"))]
